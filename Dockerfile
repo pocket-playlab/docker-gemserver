@@ -7,12 +7,12 @@ RUN mkdir /geminabox
 VOLUME /var/gems
 
 WORKDIR /geminabox
-ADD Gemfile ./geminabox/
-ADD Gemfile.lock ./geminabox/
+ADD Gemfile /geminabox/
+ADD Gemfile.lock /geminabox/
 RUN bundle install
 
-ADD config.ru ./geminabox/
-ADD puma.rb ./geminabox/
+ADD config.ru /geminabox/
+ADD puma.rb /geminabox/
 
 ENV PORT 6444
 EXPOSE 6444
