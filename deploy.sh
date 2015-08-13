@@ -5,7 +5,7 @@ set -e
 pull() {
   local server=$1
   echo "Pulling repository on $server"
-  ssh core@$server "docker pull pocketplaylab/gemserver:latest"
+  ssh core@$server "docker pull quay.io/ssro/gemserver:quay"
 }
 
 # Need to pull on all servers
@@ -16,7 +16,7 @@ done
 wait
 
 # Then connect to one controller is enough
-ssh core@$CORE1  "fleetctl stop gemserver \
-                                  presence-gemserver \
-                                  && fleetctl start gemserver \
-                                  presence-gemserver"
+ssh core@$CORE1  "fleetctl stop gemserver-quay \
+                                  presence-gemserver-quay \
+                                  && fleetctl start gemserver-quay \
+                                  presence-gemserver-quay"

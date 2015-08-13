@@ -13,9 +13,9 @@ dependencies:
     - "~/docker"
   override:
     - mkdir -p ~/docker
-    - if [[ -e ~/docker/gemserver.tar ]]; then docker load -i ~/docker/gemserver.tar; fi
-    - docker build -t pocketplaylab/gemserver:latest .
-    - docker save "pocketplaylab/gemserver:latest" > ~/docker/gemserver.tar
+    - if [[ -e ~/docker/gemserver-quay.tar ]]; then docker load -i ~/docker/gemserver-quay.tar; fi
+    - docker build -t quay.io/ssro/$CIRCLE_PROJECT_REPONAME:quay .
+    - docker save "quay.io/ssro/$CIRCLE_PROJECT_REPONAME:quay" > ~/docker/gemserver-quay.tar
 
 database:
   override:
@@ -29,7 +29,14 @@ deployment:
   hub: 
     branch: master
     commands:
-      - sed "s/<EMAIL>/$DOCKER_EMAIL/;s/<AUTH>/$DOCKER_AUTH/" dockercfg.template > ~/.dockercfg
-      - docker push pocketplaylab/gemserver:latest
+      - sed "s/<EMAIL>/$EMAIL/;s/<AUTH>/$AUTH/" dockercfg.template > ~/.dockercfg
+      - docker push quay.io/ssro/$CIRCLE_PROJECT_REPONAME:latest
+      - ./deploy.sh :
+          timeout: 600
+  quay: 
+    branch: quay
+    commands:
+      - sed "s/<EMAIL>/$EMAIL/;s/<AUTH>/$AUTH/" dockercfg.template > ~/.dockercfg
+      - docker push quay.io/ssro/$CIRCLE_PROJECT_REPONAME:quay
       - ./deploy.sh :
           timeout: 600
