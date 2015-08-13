@@ -14,8 +14,8 @@ dependencies:
   override:
     - mkdir -p ~/docker
     - if [[ -e ~/docker/gemserver-quay.tar ]]; then docker load -i ~/docker/gemserver-quay.tar; fi
-    - docker build -t quay.io/ssro/$CIRCLE_PROJECT_REPONAME:quay .
-    - docker save "quay.io/ssro/$CIRCLE_PROJECT_REPONAME:quay" > ~/docker/gemserver-quay.tar
+    - docker build -t quay.io/ssro/$CIRCLE_PROJECT_REPONAME-quay:quay .
+    - docker save "quay.io/ssro/$CIRCLE_PROJECT_REPONAME-quay:quay" > ~/docker/gemserver-quay.tar
 
 database:
   override:
@@ -37,6 +37,6 @@ deployment:
     branch: quay
     commands:
       - sed "s/<EMAIL>/$EMAIL/;s/<AUTH>/$AUTH/" dockercfg.template > ~/.dockercfg
-      - docker push quay.io/ssro/$CIRCLE_PROJECT_REPONAME:quay
+      - docker push quay.io/ssro/$CIRCLE_PROJECT_REPONAME-quay:quay
       - ./deploy.sh :
           timeout: 600

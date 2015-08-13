@@ -5,7 +5,7 @@ set -e
 pull() {
   local server=$1
   echo "Pulling repository on $server"
-  ssh core@$server "docker pull quay.io/ssro/gemserver-quay:quay"
+  ssh core@$server "docker pull quay.io/ssro/docker-gemserver-quay:quay"
 }
 
 # Need to pull on all servers
